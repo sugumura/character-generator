@@ -8,7 +8,7 @@ import {
  * Requirements: 4.1, 4.2, 4.3, 4.4, 4.8
  */
 
-const MODEL_ID = "anthropic.claude-haiku-4-5-20251001-v1:0";
+const MODEL_ID = "anthropic.claude-3-haiku-20240307-v1:0";
 const REGION = "ap-northeast-1";
 
 // IAMロールのデフォルト認証情報チェーンを使用（Secrets Manager不使用）

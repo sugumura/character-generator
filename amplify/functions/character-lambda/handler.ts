@@ -67,7 +67,7 @@ const CHARACTERS_TABLE = process.env.CHARACTERS_TABLE_NAME ?? "";
 const PROJECTS_TABLE = process.env.PROJECTS_TABLE_NAME ?? "";
 
 // ---- Bedrock client (inlined — Requirements 5.1) ----
-const MODEL_ID = "anthropic.claude-haiku-4-5-20251001-v1:0";
+const MODEL_ID = "anthropic.claude-3-haiku-20240307-v1:0";
 const bedrockClient = new BedrockRuntimeClient({ region: "ap-northeast-1" });
 
 async function generateBackground(

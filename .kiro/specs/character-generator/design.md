@@ -90,6 +90,7 @@ graph TB
 | POST | /projects | Project_Lambda | プロジェクト作成 |
 | GET | /projects | Project_Lambda | プロジェクト一覧取得 |
 | GET | /projects/{projectId} | Project_Lambda | プロジェクト詳細取得 |
+| PUT | /projects/{projectId} | Project_Lambda | プロジェクト更新（worldSetting） |
 | DELETE | /projects/{projectId} | Project_Lambda | プロジェクト削除 |
 | POST | /projects/{projectId}/characters/generate | Generate_Lambda | キャラクター一括生成 |
 | GET | /projects/{projectId}/characters | Character_Lambda | キャラクター一覧取得 |

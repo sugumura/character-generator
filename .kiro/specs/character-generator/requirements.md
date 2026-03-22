@@ -62,9 +62,10 @@
 2. WHEN 認証済みユーザーが `GET /projects` にアクセスしたとき、THE **Project_Lambda** SHALL そのユーザーのプロジェクト一覧をcreatedAtの降順で返す
 3. WHEN 認証済みユーザーが `GET /projects/{projectId}` にアクセスしたとき、THE **Project_Lambda** SHALL 指定プロジェクトの詳細情報を返す
 4. WHEN 認証済みユーザーが他のユーザーのプロジェクトIDで `GET /projects/{projectId}` にアクセスしたとき、THE **Project_Lambda** SHALL HTTPステータス403を返す
-5. WHEN 認証済みユーザーが `DELETE /projects/{projectId}` にアクセスしたとき、THE **Project_Lambda** SHALL 指定プロジェクトをProjects_Tableから削除する
-6. THE **Projects_Table** SHALL `PK: userId, SK: project#{projectId}` のキー構造でデータを格納する
-7. THE **Projects_Table** SHALL projectId、projectName、worldSetting、maxCharacters、createdAt（ISO8601）、updatedAt（ISO8601）の属性を保持する
+5. WHEN 認証済みユーザーが `PUT /projects/{projectId}` にworldSettingを送信したとき、THE **Project_Lambda** SHALL 指定プロジェクトのworldSettingを更新し、更新後のプロジェクト情報を返す
+6. WHEN 認証済みユーザーが `DELETE /projects/{projectId}` にアクセスしたとき、THE **Project_Lambda** SHALL 指定プロジェクトをProjects_Tableから削除する
+7. THE **Projects_Table** SHALL `PK: userId, SK: project#{projectId}` のキー構造でデータを格納する
+8. THE **Projects_Table** SHALL projectId、projectName、worldSetting、maxCharacters、createdAt（ISO8601）、updatedAt（ISO8601）の属性を保持する
 
 ---
 
@@ -105,6 +106,7 @@
 6. WHEN Bedrock_Clientがバックグラウンドストーリーの生成に成功したとき、THE **Generate_Lambda** SHALL backgroundフィールドを生成されたテキストで更新し、generationStatusをcompletedに更新する
 7. IF Bedrock_Clientがバックグラウンドストーリーの生成に失敗したとき、THEN THE **Generate_Lambda** SHALL 対象キャラクターのgenerationStatusをfailedに更新する
 8. THE **Generate_Lambda** SHALL IAMロールのBedrockInvokeModel権限を使用してBedrockに認証する（AWS Secrets Managerは使用しない）
+9. THE **Generate_Lambda** SHALL Bedrock呼び出しを同期的に `await` して完了を待つため、Lambda タイムアウトを300秒に設定する
 
 ---
 

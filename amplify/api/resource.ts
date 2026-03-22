@@ -85,6 +85,7 @@ export function defineApi(
   // /projects/{projectId}
   const project = projects.addResource("{projectId}");
   project.addMethod("GET", projectIntegration, authMethodOptions);
+  project.addMethod("PUT", projectIntegration, authMethodOptions);
   project.addMethod("DELETE", projectIntegration, authMethodOptions);
 
   // /projects/{projectId}/characters

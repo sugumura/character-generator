@@ -237,6 +237,39 @@ paths:
         '500':
           $ref: '#/components/responses/InternalError'
 
+    put:
+      summary: プロジェクト更新（worldSetting）
+      operationId: updateProject
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                worldSetting:
+                  type: string
+              required: [worldSetting]
+      responses:
+        '200':
+          description: 更新成功
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Project'
+        '400':
+          description: バリデーションエラー
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalError'
+
     delete:
       summary: プロジェクト削除
       operationId: deleteProject

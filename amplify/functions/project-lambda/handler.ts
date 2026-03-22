@@ -5,6 +5,7 @@ import {
   PutCommand,
   QueryCommand,
   GetCommand,
+  UpdateCommand,
   DeleteCommand,
 } from "@aws-sdk/lib-dynamodb";
 import { ulid } from "ulid";
@@ -126,7 +127,7 @@ async function listProjects(event: APIGatewayProxyEvent) {
   );
 
   const projects = (result.Items ?? [])
-    .map((item) => ({
+    .map((item: Record<string, unknown>) => ({
       projectId: item.projectId as string,
       projectName: item.projectName as string,
       worldSetting: item.worldSetting as string,
@@ -135,7 +136,7 @@ async function listProjects(event: APIGatewayProxyEvent) {
       updatedAt: item.updatedAt as string,
     }))
     // Sort by createdAt descending in application code (no GSI on createdAt)
-    .sort((a, b) => b.createdAt.localeCompare(a.createdAt));
+    .sort((a: { createdAt: string }, b: { createdAt: string }) => b.createdAt.localeCompare(a.createdAt));
 
   return {
     statusCode: 200,
@@ -197,6 +198,60 @@ async function getProject(event: APIGatewayProxyEvent) {
   };
 }
 
+/** PUT /projects/{projectId} */
+async function updateProject(event: APIGatewayProxyEvent) {
+  const userId = getUserId(event);
+  if (!userId) return errorResponse("UNAUTHORIZED", "認証が必要です");
+
+  const projectId = event.pathParameters?.projectId;
+  if (!projectId) return errorResponse("INVALID_REQUEST", "projectId が必要です");
+
+  let body: { worldSetting?: string };
+  try {
+    body = JSON.parse(event.body ?? "{}");
+  } catch {
+    return errorResponse("INVALID_REQUEST", "リクエストボディが不正です");
+  }
+
+  if (!body.worldSetting) {
+    return errorResponse("INVALID_REQUEST", "worldSetting は必須です");
+  }
+
+  const now = new Date().toISOString();
+  await ddb.send(
+    new UpdateCommand({
+      TableName: TABLE_NAME,
+      Key: { PK: userId, SK: `project#${projectId}` },
+      UpdateExpression: "SET worldSetting = :w, updatedAt = :u",
+      ExpressionAttributeValues: { ":w": body.worldSetting, ":u": now },
+      ConditionExpression: "attribute_exists(PK)",
+    })
+  );
+
+  const result = await ddb.send(
+    new GetCommand({
+      TableName: TABLE_NAME,
+      Key: { PK: userId, SK: `project#${projectId}` },
+    })
+  );
+
+  if (!result.Item) return errorResponse("NOT_FOUND", "プロジェクトが見つかりません");
+
+  const item = result.Item;
+  return {
+    statusCode: 200,
+    headers: CORS_HEADERS,
+    body: JSON.stringify({
+      projectId: item.projectId,
+      projectName: item.projectName,
+      worldSetting: item.worldSetting,
+      maxCharacters: item.maxCharacters,
+      createdAt: item.createdAt,
+      updatedAt: item.updatedAt,
+    }),
+  };
+}
+
 /** DELETE /projects/{projectId} */
 async function deleteProject(event: APIGatewayProxyEvent) {
   const userId = getUserId(event);
@@ -233,6 +288,9 @@ export const handler: APIGatewayProxyHandler = async (event) => {
     }
     if (method === "GET" && path === "/projects/{projectId}") {
       return await getProject(event);
+    }
+    if (method === "PUT" && path === "/projects/{projectId}") {
+      return await updateProject(event);
     }
     if (method === "DELETE" && path === "/projects/{projectId}") {
       return await deleteProject(event);

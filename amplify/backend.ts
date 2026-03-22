@@ -116,7 +116,7 @@ const generateLambda = new lambdaNodejs.NodejsFunction(apiStack, "GenerateLambda
   ...commonLambdaProps,
   entry: join(__dirname, "functions/generate-lambda/handler.ts"),
   handler: "handler",
-  timeout: cdk.Duration.seconds(60),
+  timeout: cdk.Duration.seconds(300),
 });
 
 // Relationship Lambda

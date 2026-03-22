@@ -1,0 +1,402 @@
+<mxfile host="app.diagrams.net">
+  <diagram name="mockup" id="mockup-all">
+    <mxGraphModel dx="1422" dy="762" grid="0" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="0" pageScale="1" pageWidth="2400" pageHeight="800" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+
+        <!-- ===== 画面1a: ログイン Step1 メール入力 (x=40, w=360, h=440) ===== -->
+        <mxCell id="s1-bg" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#aaaaaa;" vertex="1" parent="1">
+          <mxGeometry x="40" y="40" width="360" height="440" as="geometry" />
+        </mxCell>
+        <mxCell id="s1-label" value="① ログイン（Step 1: メール入力）" style="text;html=1;strokeColor=none;fillColor=none;align=center;fontSize=12;fontStyle=1;fontColor=#555555;" vertex="1" parent="1">
+          <mxGeometry x="40" y="44" width="360" height="28" as="geometry" />
+        </mxCell>
+        <mxCell id="s1-header" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#1a73e8;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="40" y="72" width="360" height="44" as="geometry" />
+        </mxCell>
+        <mxCell id="s1-header-txt" value="Character Generator" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;fontSize=14;fontStyle=1;fontColor=#ffffff;" vertex="1" parent="1">
+          <mxGeometry x="40" y="72" width="360" height="44" as="geometry" />
+        </mxCell>
+        <mxCell id="s1-logo" value="🎮" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;fontSize=36;" vertex="1" parent="1">
+          <mxGeometry x="140" y="136" width="80" height="56" as="geometry" />
+        </mxCell>
+        <mxCell id="s1-desc" value="メールアドレスを入力するとログインリンクを送信します。パスワード不要です。" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;fontSize=10;fontColor=#666666;whiteSpace=wrap;" vertex="1" parent="1">
+          <mxGeometry x="64" y="200" width="272" height="36" as="geometry" />
+        </mxCell>
+        <mxCell id="s1-email-lbl" value="メールアドレス" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontSize=11;fontColor=#555555;" vertex="1" parent="1">
+          <mxGeometry x="80" y="248" width="120" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="s1-email-input" value="user@example.com" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#1a73e8;align=left;spacingLeft=8;fontSize=11;fontColor=#aaaaaa;" vertex="1" parent="1">
+          <mxGeometry x="80" y="270" width="240" height="32" as="geometry" />
+        </mxCell>
+        <mxCell id="s1-send-btn" value="ログインリンクを送信" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#1a73e8;strokeColor=none;fontColor=#ffffff;fontSize=13;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="80" y="320" width="240" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="s1-note" value="Powered by Amazon Cognito (Passwordless)" style="text;html=1;strokeColor=none;fillColor=none;align=center;fontSize=9;fontColor=#aaaaaa;" vertex="1" parent="1">
+          <mxGeometry x="60" y="424" width="280" height="16" as="geometry" />
+        </mxCell>
+
+        <!-- ===== 画面1b: ログイン Step2 確認待ち (x=440, w=360, h=440) ===== -->
+        <mxCell id="s1b-bg" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#aaaaaa;" vertex="1" parent="1">
+          <mxGeometry x="440" y="40" width="360" height="440" as="geometry" />
+        </mxCell>
+        <mxCell id="s1b-label" value="① ログイン（Step 2: メール確認待ち）" style="text;html=1;strokeColor=none;fillColor=none;align=center;fontSize=12;fontStyle=1;fontColor=#555555;" vertex="1" parent="1">
+          <mxGeometry x="440" y="44" width="360" height="28" as="geometry" />
+        </mxCell>
+        <mxCell id="s1b-header" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#1a73e8;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="440" y="72" width="360" height="44" as="geometry" />
+        </mxCell>
+        <mxCell id="s1b-header-txt" value="Character Generator" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;fontSize=14;fontStyle=1;fontColor=#ffffff;" vertex="1" parent="1">
+          <mxGeometry x="440" y="72" width="360" height="44" as="geometry" />
+        </mxCell>
+        <mxCell id="s1b-icon" value="✉️" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;fontSize=40;" vertex="1" parent="1">
+          <mxGeometry x="540" y="136" width="80" height="56" as="geometry" />
+        </mxCell>
+        <mxCell id="s1b-title" value="メールを確認してください" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;fontSize=13;fontStyle=1;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="460" y="200" width="280" height="24" as="geometry" />
+        </mxCell>
+        <mxCell id="s1b-desc" value="user@example.com にログインリンクを送信しました。メール内のリンクをクリックするとログインできます。" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;fontSize=10;fontColor=#666666;whiteSpace=wrap;" vertex="1" parent="1">
+          <mxGeometry x="464" y="232" width="272" height="48" as="geometry" />
+        </mxCell>
+        <mxCell id="s1b-info-box" value="リンクの有効期限は15分です" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff8e1;strokeColor=#ffc107;fontColor=#f57c00;fontSize=10;align=center;" vertex="1" parent="1">
+          <mxGeometry x="480" y="292" width="240" height="28" as="geometry" />
+        </mxCell>
+        <mxCell id="s1b-resend" value="メールが届かない場合は再送信" style="text;html=1;strokeColor=none;fillColor=none;align=center;fontSize=11;fontColor=#1a73e8;" vertex="1" parent="1">
+          <mxGeometry x="460" y="340" width="280" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="s1b-back" value="← メールアドレスを変更" style="text;html=1;strokeColor=none;fillColor=none;align=center;fontSize=10;fontColor=#888888;" vertex="1" parent="1">
+          <mxGeometry x="460" y="368" width="280" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="s1b-note" value="Powered by Amazon Cognito (Passwordless)" style="text;html=1;strokeColor=none;fillColor=none;align=center;fontSize=9;fontColor=#aaaaaa;" vertex="1" parent="1">
+          <mxGeometry x="460" y="424" width="280" height="16" as="geometry" />
+        </mxCell>
+
+        <!-- ===== 画面2: メイン（2ペイン）x=860, w=1000, h=680 ===== -->
+        <!-- 外枠 -->
+        <mxCell id="s2-bg" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f0f0f0;strokeColor=#aaaaaa;" vertex="1" parent="1">
+          <mxGeometry x="860" y="40" width="1000" height="680" as="geometry" />
+        </mxCell>
+        <mxCell id="s2-label" value="② メイン画面（2ペイン）" style="text;html=1;strokeColor=none;fillColor=none;align=center;fontSize=12;fontStyle=1;fontColor=#555555;" vertex="1" parent="1">
+          <mxGeometry x="860" y="44" width="1000" height="28" as="geometry" />
+        </mxCell>
+
+        <!-- ヘッダー (h=52) -->
+        <mxCell id="s2-header" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#1a73e8;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="860" y="72" width="1000" height="52" as="geometry" />
+        </mxCell>
+        <mxCell id="s2-header-logo" value="Character Generator" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontSize=14;fontStyle=1;fontColor=#ffffff;" vertex="1" parent="1">
+          <mxGeometry x="876" y="72" width="220" height="52" as="geometry" />
+        </mxCell>
+        <!-- プロジェクト選択ドロップダウン -->
+        <mxCell id="s2-proj-dropdown" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#2a83f8;strokeColor=#5599ff;" vertex="1" parent="1">
+          <mxGeometry x="1104" y="84" width="240" height="28" as="geometry" />
+        </mxCell>
+        <mxCell id="s2-proj-dropdown-txt" value="ファンタジー世界プロジェクト  ▼" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontSize=11;fontColor=#ffffff;spacingLeft=8;" vertex="1" parent="1">
+          <mxGeometry x="1104" y="84" width="240" height="28" as="geometry" />
+        </mxCell>
+        <!-- 新規プロジェクトボタン -->
+        <mxCell id="s2-new-proj-btn" value="+ プロジェクト" style="rounded=1;whiteSpace=wrap;html=1;fillColor=none;strokeColor=#ffffff;fontColor=#ffffff;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="1356" y="84" width="100" height="28" as="geometry" />
+        </mxCell>
+        <!-- ログアウト -->
+        <mxCell id="s2-logout" value="ログアウト" style="text;html=1;strokeColor=none;fillColor=none;align=right;verticalAlign=middle;fontSize=10;fontColor=#ccddff;" vertex="1" parent="1">
+          <mxGeometry x="1468" y="84" width="80" height="28" as="geometry" />
+        </mxCell>
+
+        <!-- 左ペイン背景 (x=860, w=300) -->
+        <mxCell id="s2-left-bg" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#dddddd;" vertex="1" parent="1">
+          <mxGeometry x="860" y="124" width="300" height="596" as="geometry" />
+        </mxCell>
+
+        <!-- 左ペイン: ツールバー -->
+        <mxCell id="s2-left-toolbar" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f8f8f8;strokeColor=#eeeeee;" vertex="1" parent="1">
+          <mxGeometry x="860" y="124" width="300" height="44" as="geometry" />
+        </mxCell>
+        <mxCell id="s2-left-title" value="キャラクター一覧" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontSize=12;fontStyle=1;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="876" y="124" width="140" height="44" as="geometry" />
+        </mxCell>
+        <mxCell id="s2-gen-input" value="3" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#cccccc;align=center;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="1016" y="136" width="36" height="24" as="geometry" />
+        </mxCell>
+        <mxCell id="s2-gen-btn" value="生成" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#1a73e8;strokeColor=none;fontColor=#ffffff;fontSize=10;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="1056" y="136" width="44" height="24" as="geometry" />
+        </mxCell>
+        <mxCell id="s2-relmap-btn" value="関係性" style="rounded=1;whiteSpace=wrap;html=1;fillColor=none;strokeColor=#1a73e8;fontColor=#1a73e8;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="1104" y="136" width="44" height="24" as="geometry" />
+        </mxCell>
+
+        <!-- 左ペイン: キャラクターカード1（選択中） -->
+        <mxCell id="s2-char1" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e8f0fe;strokeColor=#1a73e8;" vertex="1" parent="1">
+          <mxGeometry x="868" y="176" width="284" height="68" as="geometry" />
+        </mxCell>
+        <mxCell id="s2-char1-name" value="アリア・シルバーウィンド" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontSize=12;fontStyle=1;fontColor=#1a73e8;" vertex="1" parent="1">
+          <mxGeometry x="880" y="182" width="220" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="s2-char1-attrs" value="エルフ / 魔法使い / 20代 / 女性" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontSize=10;fontColor=#555555;" vertex="1" parent="1">
+          <mxGeometry x="880" y="204" width="200" height="16" as="geometry" />
+        </mxCell>
+        <mxCell id="s2-char1-status" value="完了" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e8f5e9;strokeColor=#4caf50;fontColor=#4caf50;fontSize=9;" vertex="1" parent="1">
+          <mxGeometry x="1096" y="200" width="44" height="20" as="geometry" />
+        </mxCell>
+
+        <!-- 左ペイン: キャラクターカード2 -->
+        <mxCell id="s2-char2" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#eeeeee;" vertex="1" parent="1">
+          <mxGeometry x="868" y="252" width="284" height="68" as="geometry" />
+        </mxCell>
+        <mxCell id="s2-char2-name" value="ガルド・アイアンフィスト" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontSize=12;fontStyle=1;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="880" y="258" width="220" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="s2-char2-attrs" value="ドワーフ / 剣士 / 40代 / 男性" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontSize=10;fontColor=#555555;" vertex="1" parent="1">
+          <mxGeometry x="880" y="280" width="200" height="16" as="geometry" />
+        </mxCell>
+        <mxCell id="s2-char2-status" value="生成中..." style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff8e1;strokeColor=#ffc107;fontColor=#f57c00;fontSize=9;" vertex="1" parent="1">
+          <mxGeometry x="1084" y="276" width="56" height="20" as="geometry" />
+        </mxCell>
+
+        <!-- 左ペイン: キャラクターカード3 -->
+        <mxCell id="s2-char3" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#eeeeee;" vertex="1" parent="1">
+          <mxGeometry x="868" y="328" width="284" height="68" as="geometry" />
+        </mxCell>
+        <mxCell id="s2-char3-name" value="ルナ・ムーンシャドウ" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontSize=12;fontStyle=1;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="880" y="334" width="220" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="s2-char3-attrs" value="人間 / 盗賊 / 20代 / 女性" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontSize=10;fontColor=#555555;" vertex="1" parent="1">
+          <mxGeometry x="880" y="356" width="200" height="16" as="geometry" />
+        </mxCell>
+        <mxCell id="s2-char3-status" value="失敗" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffebee;strokeColor=#e53935;fontColor=#e53935;fontSize=9;" vertex="1" parent="1">
+          <mxGeometry x="1108" y="352" width="32" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="s2-char3-retry" value="再生成" style="rounded=1;whiteSpace=wrap;html=1;fillColor=none;strokeColor=#e53935;fontColor=#e53935;fontSize=9;" vertex="1" parent="1">
+          <mxGeometry x="1068" y="352" width="36" height="20" as="geometry" />
+        </mxCell>
+
+        <!-- 右ペイン背景 (x=1160, w=700) -->
+        <mxCell id="s2-right-bg" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#fafafa;strokeColor=#dddddd;" vertex="1" parent="1">
+          <mxGeometry x="1160" y="124" width="700" height="596" as="geometry" />
+        </mxCell>
+
+        <!-- 右ペイン: キャラクター詳細 -->
+        <mxCell id="s2-right-title-bar" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f0f0f0;strokeColor=#eeeeee;" vertex="1" parent="1">
+          <mxGeometry x="1160" y="124" width="700" height="44" as="geometry" />
+        </mxCell>
+        <mxCell id="s2-right-char-name" value="アリア・シルバーウィンド" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontSize=14;fontStyle=1;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="1176" y="124" width="300" height="44" as="geometry" />
+        </mxCell>
+        <mxCell id="s2-save-btn" value="保存" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#1a73e8;strokeColor=none;fontColor=#ffffff;fontSize=11;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="1760" y="136" width="60" height="24" as="geometry" />
+        </mxCell>
+        <mxCell id="s2-del-btn" value="削除" style="rounded=1;whiteSpace=wrap;html=1;fillColor=none;strokeColor=#e53935;fontColor=#e53935;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="1828" y="136" width="24" height="24" as="geometry" />
+        </mxCell>
+
+        <!-- 属性グリッド -->
+        <mxCell id="s2-attr-box" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#eeeeee;" vertex="1" parent="1">
+          <mxGeometry x="1176" y="180" width="668" height="160" as="geometry" />
+        </mxCell>
+        <!-- 行1 -->
+        <mxCell id="s2-a-gender-lbl" value="性別" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontSize=10;fontColor=#888888;" vertex="1" parent="1">
+          <mxGeometry x="1188" y="188" width="60" height="18" as="geometry" />
+        </mxCell>
+        <mxCell id="s2-a-gender-val" value="女性  ▼" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#cccccc;align=left;spacingLeft=6;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="1188" y="208" width="100" height="28" as="geometry" />
+        </mxCell>
+        <mxCell id="s2-a-species-lbl" value="種族" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontSize=10;fontColor=#888888;" vertex="1" parent="1">
+          <mxGeometry x="1304" y="188" width="60" height="18" as="geometry" />
+        </mxCell>
+        <mxCell id="s2-a-species-val" value="エルフ  ▼" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#cccccc;align=left;spacingLeft=6;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="1304" y="208" width="100" height="28" as="geometry" />
+        </mxCell>
+        <mxCell id="s2-a-job-lbl" value="職業" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontSize=10;fontColor=#888888;" vertex="1" parent="1">
+          <mxGeometry x="1420" y="188" width="60" height="18" as="geometry" />
+        </mxCell>
+        <mxCell id="s2-a-job-val" value="魔法使い  ▼" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#cccccc;align=left;spacingLeft=6;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="1420" y="208" width="110" height="28" as="geometry" />
+        </mxCell>
+        <mxCell id="s2-a-age-lbl" value="年代" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontSize=10;fontColor=#888888;" vertex="1" parent="1">
+          <mxGeometry x="1546" y="188" width="60" height="18" as="geometry" />
+        </mxCell>
+        <mxCell id="s2-a-age-val" value="20代  ▼" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#cccccc;align=left;spacingLeft=6;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="1546" y="208" width="90" height="28" as="geometry" />
+        </mxCell>
+        <!-- 行2 -->
+        <mxCell id="s2-a-hair-lbl" value="髪色" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontSize=10;fontColor=#888888;" vertex="1" parent="1">
+          <mxGeometry x="1188" y="248" width="60" height="18" as="geometry" />
+        </mxCell>
+        <mxCell id="s2-a-hair-val" value="金  ▼" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#cccccc;align=left;spacingLeft=6;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="1188" y="268" width="100" height="28" as="geometry" />
+        </mxCell>
+        <mxCell id="s2-a-skin-lbl" value="肌色" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontSize=10;fontColor=#888888;" vertex="1" parent="1">
+          <mxGeometry x="1304" y="248" width="60" height="18" as="geometry" />
+        </mxCell>
+        <mxCell id="s2-a-skin-val" value="色白  ▼" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#cccccc;align=left;spacingLeft=6;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="1304" y="268" width="100" height="28" as="geometry" />
+        </mxCell>
+        <mxCell id="s2-a-personality-lbl" value="性格" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontSize=10;fontColor=#888888;" vertex="1" parent="1">
+          <mxGeometry x="1420" y="248" width="60" height="18" as="geometry" />
+        </mxCell>
+        <mxCell id="s2-a-personality-val" value="冷静沈着  ▼" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#cccccc;align=left;spacingLeft=6;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="1420" y="268" width="110" height="28" as="geometry" />
+        </mxCell>
+
+        <!-- 特記事項 -->
+        <mxCell id="s2-note-lbl" value="特記事項（最大200文字）" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontSize=10;fontColor=#888888;" vertex="1" parent="1">
+          <mxGeometry x="1176" y="352" width="200" height="18" as="geometry" />
+        </mxCell>
+        <mxCell id="s2-note-val" value="古代魔法の使い手。幼少期に村を失った過去を持つ。" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#cccccc;align=left;spacingLeft=8;spacingTop=6;fontSize=11;verticalAlign=top;" vertex="1" parent="1">
+          <mxGeometry x="1176" y="372" width="668" height="48" as="geometry" />
+        </mxCell>
+
+        <!-- バックグラウンドストーリー -->
+        <mxCell id="s2-bg-header" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f0f0f0;strokeColor=#eeeeee;" vertex="1" parent="1">
+          <mxGeometry x="1176" y="432" width="668" height="32" as="geometry" />
+        </mxCell>
+        <mxCell id="s2-bg-lbl" value="バックグラウンドストーリー" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontSize=11;fontStyle=1;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="1188" y="432" width="240" height="32" as="geometry" />
+        </mxCell>
+        <mxCell id="s2-regen-btn" value="再生成" style="rounded=1;whiteSpace=wrap;html=1;fillColor=none;strokeColor=#1a73e8;fontColor=#1a73e8;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="1780" y="438" width="56" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="s2-bg-text" value="アリアは古代エルフの血を引く若き魔法使いである。幼い頃に魔族の襲撃で故郷の村を失い、生き残った彼女は復讐と平和への誓いを胸に旅を続けている。その類まれな魔力は師匠譲りであり、古代魔法の研究に没頭する日々を送っている。" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#eeeeee;align=left;spacingLeft=8;spacingTop=8;fontSize=11;verticalAlign=top;" vertex="1" parent="1">
+          <mxGeometry x="1176" y="464" width="668" height="100" as="geometry" />
+        </mxCell>
+
+        <!-- ===== 画面3: 関係性マップ（右ペイン差し替え）x=1940, w=700 ===== -->
+        <mxCell id="s3-bg" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f0f0f0;strokeColor=#aaaaaa;" vertex="1" parent="1">
+          <mxGeometry x="1560" y="40" width="700" height="680" as="geometry" />
+        </mxCell>
+        <mxCell id="s3-label" value="③ 関係性マップ（右ペイン差し替え時）" style="text;html=1;strokeColor=none;fillColor=none;align=center;fontSize=12;fontStyle=1;fontColor=#555555;" vertex="1" parent="1">
+          <mxGeometry x="1560" y="44" width="700" height="28" as="geometry" />
+        </mxCell>
+
+        <!-- ヘッダー（同じ） -->
+        <mxCell id="s3-header" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#1a73e8;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="1560" y="72" width="700" height="52" as="geometry" />
+        </mxCell>
+        <mxCell id="s3-header-logo" value="Character Generator" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontSize=14;fontStyle=1;fontColor=#ffffff;" vertex="1" parent="1">
+          <mxGeometry x="1576" y="72" width="220" height="52" as="geometry" />
+        </mxCell>
+        <mxCell id="s3-proj-dropdown" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#2a83f8;strokeColor=#5599ff;" vertex="1" parent="1">
+          <mxGeometry x="1804" y="84" width="240" height="28" as="geometry" />
+        </mxCell>
+        <mxCell id="s3-proj-dropdown-txt" value="ファンタジー世界プロジェクト  ▼" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontSize=11;fontColor=#ffffff;spacingLeft=8;" vertex="1" parent="1">
+          <mxGeometry x="1804" y="84" width="240" height="28" as="geometry" />
+        </mxCell>
+        <mxCell id="s3-logout" value="ログアウト" style="text;html=1;strokeColor=none;fillColor=none;align=right;verticalAlign=middle;fontSize=10;fontColor=#ccddff;" vertex="1" parent="1">
+          <mxGeometry x="2168" y="84" width="80" height="28" as="geometry" />
+        </mxCell>
+
+        <!-- 左ペイン（同じ、縮小表示） -->
+        <mxCell id="s3-left-bg" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#dddddd;" vertex="1" parent="1">
+          <mxGeometry x="1560" y="124" width="300" height="596" as="geometry" />
+        </mxCell>
+        <mxCell id="s3-left-toolbar" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f8f8f8;strokeColor=#eeeeee;" vertex="1" parent="1">
+          <mxGeometry x="1560" y="124" width="300" height="44" as="geometry" />
+        </mxCell>
+        <mxCell id="s3-left-title" value="キャラクター一覧" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontSize=12;fontStyle=1;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="1576" y="124" width="140" height="44" as="geometry" />
+        </mxCell>
+        <mxCell id="s3-gen-input" value="3" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#cccccc;align=center;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="1716" y="136" width="36" height="24" as="geometry" />
+        </mxCell>
+        <mxCell id="s3-gen-btn" value="生成" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#1a73e8;strokeColor=none;fontColor=#ffffff;fontSize=10;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="1756" y="136" width="44" height="24" as="geometry" />
+        </mxCell>
+        <mxCell id="s3-relmap-btn" value="関係性" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#1a73e8;strokeColor=none;fontColor=#ffffff;fontSize=10;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="1804" y="136" width="44" height="24" as="geometry" />
+        </mxCell>
+        <!-- キャラカード（簡略） -->
+        <mxCell id="s3-char1" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#eeeeee;" vertex="1" parent="1">
+          <mxGeometry x="1568" y="176" width="284" height="56" as="geometry" />
+        </mxCell>
+        <mxCell id="s3-char1-name" value="アリア・シルバーウィンド" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontSize=11;fontStyle=1;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="1580" y="182" width="200" height="18" as="geometry" />
+        </mxCell>
+        <mxCell id="s3-char1-sub" value="エルフ / 魔法使い" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontSize=9;fontColor=#888888;" vertex="1" parent="1">
+          <mxGeometry x="1580" y="202" width="160" height="16" as="geometry" />
+        </mxCell>
+        <mxCell id="s3-char2" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#eeeeee;" vertex="1" parent="1">
+          <mxGeometry x="1568" y="240" width="284" height="56" as="geometry" />
+        </mxCell>
+        <mxCell id="s3-char2-name" value="ガルド・アイアンフィスト" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontSize=11;fontStyle=1;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="1580" y="246" width="200" height="18" as="geometry" />
+        </mxCell>
+        <mxCell id="s3-char2-sub" value="ドワーフ / 剣士" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontSize=9;fontColor=#888888;" vertex="1" parent="1">
+          <mxGeometry x="1580" y="266" width="160" height="16" as="geometry" />
+        </mxCell>
+        <mxCell id="s3-char3" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#eeeeee;" vertex="1" parent="1">
+          <mxGeometry x="1568" y="304" width="284" height="56" as="geometry" />
+        </mxCell>
+        <mxCell id="s3-char3-name" value="ルナ・ムーンシャドウ" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontSize=11;fontStyle=1;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="1580" y="310" width="200" height="18" as="geometry" />
+        </mxCell>
+        <mxCell id="s3-char3-sub" value="人間 / 盗賊" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontSize=9;fontColor=#888888;" vertex="1" parent="1">
+          <mxGeometry x="1580" y="330" width="160" height="16" as="geometry" />
+        </mxCell>
+
+        <!-- 右ペイン: 関係性マップ -->
+        <mxCell id="s3-right-bg" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#fafafa;strokeColor=#dddddd;" vertex="1" parent="1">
+          <mxGeometry x="1860" y="124" width="400" height="596" as="geometry" />
+        </mxCell>
+        <mxCell id="s3-right-title-bar" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f0f0f0;strokeColor=#eeeeee;" vertex="1" parent="1">
+          <mxGeometry x="1860" y="124" width="400" height="44" as="geometry" />
+        </mxCell>
+        <mxCell id="s3-right-title" value="関係性マップ" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontSize=13;fontStyle=1;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="1876" y="124" width="200" height="44" as="geometry" />
+        </mxCell>
+        <mxCell id="s3-add-rel-btn" value="+ 関係性追加" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#1a73e8;strokeColor=none;fontColor=#ffffff;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="2168" y="136" width="80" height="24" as="geometry" />
+        </mxCell>
+        <!-- グラフエリア -->
+        <mxCell id="s3-graph-area" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#eeeeee;" vertex="1" parent="1">
+          <mxGeometry x="1868" y="176" width="384" height="320" as="geometry" />
+        </mxCell>
+        <!-- ノード -->
+        <mxCell id="s3-node-aria" value="アリア" style="ellipse;whiteSpace=wrap;html=1;fillColor=#e8f0fe;strokeColor=#1a73e8;fontSize=11;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="2000" y="236" width="80" height="44" as="geometry" />
+        </mxCell>
+        <mxCell id="s3-node-gard" value="ガルド" style="ellipse;whiteSpace=wrap;html=1;fillColor=#e8f0fe;strokeColor=#1a73e8;fontSize=11;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="1900" y="340" width="80" height="44" as="geometry" />
+        </mxCell>
+        <mxCell id="s3-node-luna" value="ルナ" style="ellipse;whiteSpace=wrap;html=1;fillColor=#e8f0fe;strokeColor=#1a73e8;fontSize=11;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="2100" y="340" width="80" height="44" as="geometry" />
+        </mxCell>
+        <mxCell id="s3-edge-ag" value="仲間" style="edgeStyle=orthogonalEdgeStyle;fontSize=9;fontColor=#4caf50;strokeColor=#4caf50;" edge="1" source="s3-node-aria" target="s3-node-gard" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="s3-edge-al" value="師弟" style="edgeStyle=orthogonalEdgeStyle;fontSize=9;fontColor=#9c27b0;strokeColor=#9c27b0;" edge="1" source="s3-node-aria" target="s3-node-luna" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="s3-edge-gl" value="ライバル" style="edgeStyle=orthogonalEdgeStyle;fontSize=9;fontColor=#e53935;strokeColor=#e53935;" edge="1" source="s3-node-gard" target="s3-node-luna" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <!-- 凡例 -->
+        <mxCell id="s3-legend" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f9f9f9;strokeColor=#eeeeee;" vertex="1" parent="1">
+          <mxGeometry x="1868" y="508" width="384" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="s3-leg-title" value="凡例" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontSize=10;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="1880" y="512" width="60" height="18" as="geometry" />
+        </mxCell>
+        <mxCell id="s3-leg1" value="仲間" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontSize=10;fontColor=#4caf50;" vertex="1" parent="1">
+          <mxGeometry x="1880" y="532" width="60" height="16" as="geometry" />
+        </mxCell>
+        <mxCell id="s3-leg2" value="ライバル" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontSize=10;fontColor=#e53935;" vertex="1" parent="1">
+          <mxGeometry x="1948" y="532" width="60" height="16" as="geometry" />
+        </mxCell>
+        <mxCell id="s3-leg3" value="師弟" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontSize=10;fontColor=#9c27b0;" vertex="1" parent="1">
+          <mxGeometry x="2016" y="532" width="60" height="16" as="geometry" />
+        </mxCell>
+        <mxCell id="s3-leg4" value="恋人" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontSize=10;fontColor=#e91e63;" vertex="1" parent="1">
+          <mxGeometry x="2084" y="532" width="60" height="16" as="geometry" />
+        </mxCell>
+        <mxCell id="s3-leg5" value="家族" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontSize=10;fontColor=#ff9800;" vertex="1" parent="1">
+          <mxGeometry x="1880" y="552" width="60" height="16" as="geometry" />
+        </mxCell>
+        <mxCell id="s3-leg6" value="敵対" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontSize=10;fontColor=#795548;" vertex="1" parent="1">
+          <mxGeometry x="1948" y="552" width="60" height="16" as="geometry" />
+        </mxCell>
+
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

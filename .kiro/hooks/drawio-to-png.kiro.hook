@@ -1,0 +1,16 @@
+{
+  "enabled": true,
+  "name": "drawio → PNG 自動生成",
+  "description": "mockup.drawioファイルが保存されたとき、drawioコマンドでPNGを自動生成します",
+  "version": "1.0.0",
+  "when": {
+    "type": "fileEdited",
+    "patterns": [
+      "**/*.drawio"
+    ]
+  },
+  "then": {
+    "type": "askAgent",
+    "prompt": "A .drawio file was just edited. Run the following command to export it as PNG: find the edited .drawio file path from context, then run: drawio --export --format png --output \"<path_without_drawio_ext>.png\" \"<filepath>\" where <path_without_drawio_ext> is the file path with the .drawio extension removed (e.g. foo/bar.drawio -> foo/bar.png). Do not ask for confirmation, just run it."
+  }
+}

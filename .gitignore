@@ -1,1 +1,7 @@
 node_modules
+.env.local
+.env*.local
+amplify_outputs.json
+.amplify/artifacts/cdk.out
+
+.envrc

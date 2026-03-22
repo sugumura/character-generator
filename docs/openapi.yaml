@@ -1,0 +1,545 @@
+openapi: 3.0.3
+info:
+  title: Character Generator API
+  description: ゲームキャラクター設定サポートツールのREST API
+  version: 1.0.0
+
+servers:
+  - url: https://{apiId}.execute-api.ap-northeast-1.amazonaws.com/prod
+    description: Production / Development
+    variables:
+      apiId:
+        default: xxxxxxxxxx
+
+security:
+  - CognitoUserPool: []
+
+components:
+  securitySchemes:
+    CognitoUserPool:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: Amazon Cognito が発行する JWT トークン
+
+  schemas:
+    Project:
+      type: object
+      properties:
+        projectId:
+          type: string
+          example: 01HZ1234ABCDEFGHJKMNPQRS
+        projectName:
+          type: string
+          example: ファンタジー世界
+        worldSetting:
+          type: string
+          example: 魔法と剣が共存する中世ヨーロッパ風の世界
+        maxCharacters:
+          type: integer
+          example: 10
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+      required: [projectId, projectName, worldSetting, maxCharacters, createdAt, updatedAt]
+
+    Character:
+      type: object
+      properties:
+        characterId:
+          type: string
+          example: 01HZ5678ABCDEFGHJKMNPQRS
+        gender:
+          type: string
+          enum: [男性, 女性, その他]
+        personality:
+          type: string
+          enum: [冷静沈着, 熱血漢, 臆病, 好奇心旺盛, 慎重, 楽天的, 皮肉屋, 優しい, 厳格, 自由奔放]
+        age:
+          type: string
+          enum: [10代, 20代, 30代, 40代, 50代, 60代, 70代, 80代]
+        species:
+          type: string
+          enum: [人間, エルフ, ドワーフ, 獣人, 竜人, 半霊, 機械人形]
+        occupation:
+          type: string
+          enum: [剣士, 魔法使い, 弓使い, 盗賊, 僧侶, 商人, 鍛冶師, 学者, 吟遊詩人, 農民, 貴族, 傭兵]
+        hairColor:
+          type: string
+          enum: [黒, 白, 金, 銀, 赤, 青, 緑, 茶, 紫]
+        skinColor:
+          type: string
+          enum: [色白, 小麦色, 褐色, 灰色, 青白い, 緑がかった]
+        specialNotes:
+          type: string
+          maxLength: 200
+          example: 左目に傷がある
+        background:
+          type: string
+          description: Bedrock が生成したバックグラウンドストーリー
+        generationStatus:
+          type: string
+          enum: [pending, generating, completed, failed]
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+      required: [characterId, generationStatus, createdAt, updatedAt]
+
+    Relationship:
+      type: object
+      properties:
+        relationshipId:
+          type: string
+          example: 01HZ9012ABCDEFGHJKMNPQRS
+        characterIdA:
+          type: string
+        characterIdB:
+          type: string
+        relationshipType:
+          type: string
+          enum: [仲間, ライバル, 師弟, 恋人, 家族, 敵対]
+        description:
+          type: string
+      required: [relationshipId, characterIdA, characterIdB, relationshipType]
+
+    Error:
+      type: object
+      properties:
+        error:
+          type: object
+          properties:
+            code:
+              type: string
+              enum:
+                - MAX_CHARACTERS_EXCEEDED
+                - INVALID_REQUEST
+                - UNAUTHORIZED
+                - FORBIDDEN
+                - NOT_FOUND
+                - RATE_LIMIT_EXCEEDED
+                - INTERNAL_ERROR
+                - BEDROCK_UNAVAILABLE
+            message:
+              type: string
+          required: [code, message]
+
+  responses:
+    Unauthorized:
+      description: 認証トークンなし・無効
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Forbidden:
+      description: 他ユーザーのリソースへのアクセス
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    NotFound:
+      description: 指定リソースが存在しない
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    InternalError:
+      description: 内部エラー
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+
+paths:
+  /projects:
+    post:
+      summary: プロジェクト作成
+      operationId: createProject
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                projectName:
+                  type: string
+                worldSetting:
+                  type: string
+                maxCharacters:
+                  type: integer
+                  default: 10
+              required: [projectName, worldSetting]
+      responses:
+        '201':
+          description: 作成成功
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Project'
+        '400':
+          description: バリデーションエラー
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '500':
+          $ref: '#/components/responses/InternalError'
+
+    get:
+      summary: プロジェクト一覧取得（createdAt 降順）
+      operationId: listProjects
+      responses:
+        '200':
+          description: 取得成功
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Project'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '500':
+          $ref: '#/components/responses/InternalError'
+
+  /projects/{projectId}:
+    parameters:
+      - name: projectId
+        in: path
+        required: true
+        schema:
+          type: string
+
+    get:
+      summary: プロジェクト詳細取得
+      operationId: getProject
+      responses:
+        '200':
+          description: 取得成功
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Project'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalError'
+
+    delete:
+      summary: プロジェクト削除
+      operationId: deleteProject
+      responses:
+        '204':
+          description: 削除成功
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '500':
+          $ref: '#/components/responses/InternalError'
+
+  /projects/{projectId}/characters/generate:
+    parameters:
+      - name: projectId
+        in: path
+        required: true
+        schema:
+          type: string
+
+    post:
+      summary: キャラクター一括生成
+      description: |
+        N体分のキャラクター属性をランダム生成して保存し、characterId リストを即座に返す。
+        バックグラウンドストーリーの生成（Bedrock）は非同期で実行される。
+      operationId: generateCharacters
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                count:
+                  type: integer
+                  minimum: 1
+              required: [count]
+      responses:
+        '201':
+          description: 生成成功
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  characterIds:
+                    type: array
+                    items:
+                      type: string
+        '400':
+          description: バリデーションエラー / maxCharacters 超過
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '429':
+          description: 1日の生成回数上限（100回）超過
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          $ref: '#/components/responses/InternalError'
+
+  /projects/{projectId}/characters:
+    parameters:
+      - name: projectId
+        in: path
+        required: true
+        schema:
+          type: string
+
+    get:
+      summary: キャラクター一覧取得（createdAt 昇順）
+      operationId: listCharacters
+      responses:
+        '200':
+          description: 取得成功
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Character'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '500':
+          $ref: '#/components/responses/InternalError'
+
+  /projects/{projectId}/characters/{characterId}:
+    parameters:
+      - name: projectId
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: characterId
+        in: path
+        required: true
+        schema:
+          type: string
+
+    get:
+      summary: キャラクター詳細取得
+      operationId: getCharacter
+      responses:
+        '200':
+          description: 取得成功
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Character'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalError'
+
+    put:
+      summary: キャラクター属性更新
+      operationId: updateCharacter
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                gender:
+                  type: string
+                personality:
+                  type: string
+                age:
+                  type: string
+                species:
+                  type: string
+                occupation:
+                  type: string
+                hairColor:
+                  type: string
+                skinColor:
+                  type: string
+                specialNotes:
+                  type: string
+                  maxLength: 200
+                background:
+                  type: string
+      responses:
+        '200':
+          description: 更新成功
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Character'
+        '400':
+          description: バリデーションエラー
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalError'
+
+    delete:
+      summary: キャラクター削除
+      operationId: deleteCharacter
+      responses:
+        '204':
+          description: 削除成功
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '500':
+          $ref: '#/components/responses/InternalError'
+
+  /projects/{projectId}/characters/{characterId}/regenerate:
+    parameters:
+      - name: projectId
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: characterId
+        in: path
+        required: true
+        schema:
+          type: string
+
+    post:
+      summary: バックグラウンドストーリー再生成
+      operationId: regenerateCharacter
+      responses:
+        '200':
+          description: 再生成成功
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Character'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '503':
+          description: Bedrock 呼び出し失敗
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          $ref: '#/components/responses/InternalError'
+
+  /projects/{projectId}/relationships:
+    parameters:
+      - name: projectId
+        in: path
+        required: true
+        schema:
+          type: string
+
+    post:
+      summary: 関係性作成（A→B と B→A を対称保存）
+      operationId: createRelationship
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                characterIdA:
+                  type: string
+                characterIdB:
+                  type: string
+                relationshipType:
+                  type: string
+                  enum: [仲間, ライバル, 師弟, 恋人, 家族, 敵対]
+                description:
+                  type: string
+              required: [characterIdA, characterIdB, relationshipType]
+      responses:
+        '201':
+          description: 作成成功
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Relationship'
+        '400':
+          description: バリデーションエラー
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '500':
+          $ref: '#/components/responses/InternalError'
+
+    get:
+      summary: 関係性一覧取得
+      operationId: listRelationships
+      responses:
+        '200':
+          description: 取得成功
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Relationship'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '500':
+          $ref: '#/components/responses/InternalError'
+
+  /projects/{projectId}/relationships/{relationshipId}:
+    parameters:
+      - name: projectId
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: relationshipId
+        in: path
+        required: true
+        schema:
+          type: string
+
+    delete:
+      summary: 関係性削除（A→B と B→A を両方削除）
+      operationId: deleteRelationship
+      responses:
+        '204':
+          description: 削除成功
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalError'

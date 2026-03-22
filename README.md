@@ -4,7 +4,7 @@
 
 ## 機能
 
-- **認証** — Amazon Cognito によるサインアップ・ログイン
+- **認証** — Google アカウントによるソーシャルログイン（パスワード不要）
 - **プロジェクト管理** — 世界観（worldSetting）ごとにキャラクターを整理
 - **キャラクター生成** — 属性（性別・性格・種族・職業など）をランダム生成し、Bedrock でバックグラウンドストーリーを自動生成
 - **キャラクター編集** — Combobox で属性を選択 or 自由入力、specialNotes を手動記入
@@ -15,10 +15,10 @@
 | レイヤー | 技術 |
 |---|---|
 | フロントエンド | React 18 + TypeScript, Vite, AWS Amplify UI |
-| バックエンド | AWS Lambda (Node.js 20), API Gateway REST API |
-| データストア | Amazon DynamoDB |
+| バックエンド | AWS Lambda (Node.js 24), API Gateway REST API |
+| データストア | Amazon DynamoDB (CDK 直接定義、PK/SK 複合キー設計) |
 | AI 生成 | Amazon Bedrock — `anthropic.claude-3-haiku-20240307-v1:0` (ap-northeast-1) |
-| 認証 | Amazon Cognito User Pool |
+| 認証 | Amazon Cognito User Pool + Google OAuth 2.0 |
 | インフラ | AWS Amplify Gen2 (CDK ベース) |
 
 ## ディレクトリ構成
@@ -27,9 +27,8 @@
 .
 ├── amplify/
 │   ├── auth/resource.ts          # Cognito 認証設定
-│   ├── data/resource.ts          # DynamoDB スキーマ定義
 │   ├── api/resource.ts           # API Gateway + Cognito Authorizer
-│   ├── backend.ts                # Amplify Gen2 バックエンド定義
+│   ├── backend.ts                # Amplify Gen2 バックエンド定義 + DynamoDB テーブル定義
 │   └── functions/
 │       ├── project-lambda/       # プロジェクト CRUD
 │       ├── character-lambda/     # キャラクター CRUD + 再生成
@@ -57,9 +56,22 @@
 
 ### 前提条件
 
-- Node.js 20+
+- Node.js 24+
 - AWS CLI（認証設定済み）
 - `@aws-amplify/backend-cli` (`ampx`)
+
+### Google OAuth の設定
+
+認証に Google ログインを使用します。初回セットアップ時に以下の手順が必要です。
+
+1. [Google Cloud Console](https://console.cloud.google.com/) でプロジェクトを開く（または新規作成）
+2. 「APIとサービス」→「認証情報」→「認証情報を作成」→「OAuth 2.0 クライアント ID」を選択
+3. アプリケーションの種類: **ウェブアプリケーション**
+4. 承認済みリダイレクト URI に以下を追加:
+   - `http://localhost:5173`（ローカル開発用）
+   - Amplify sandbox デプロイ後に生成される Cognito Hosted UI の URL（後から追加可）
+   - 本番・開発環境の Amplify URL（デプロイ後に追加）
+5. 作成後に表示される **クライアント ID** と **クライアントシークレット** を控える
 
 ### インストール
 
@@ -73,6 +85,9 @@ npm install
 # バックエンドをサンドボックス環境にデプロイ
 npm run amplify:sandbox
 
+# AWS プロファイルを指定する場合
+npm run amplify:sandbox -- --profile your-profile-name
+
 # フロントエンド開発サーバーを起動（別ターミナル）
 npm run dev
 ```
@@ -81,11 +96,28 @@ npm run dev
 
 ### 環境変数
 
-`.env.local` を作成し、API Gateway の URL を設定します。
+`.env.local` を作成し、以下を設定します（`.gitignore` に含まれているためコミットされません）。
 
 ```
 VITE_API_BASE_URL=https://xxxxxxxxxx.execute-api.ap-northeast-1.amazonaws.com/prod
 ```
+
+### Google OAuth シークレットの登録
+
+`GOOGLE_CLIENT_ID` と `GOOGLE_CLIENT_SECRET` は Amplify の Secret Store で管理します。`.env.local` には書かないでください。
+
+**ローカル（sandbox）:**
+
+```bash
+npx ampx sandbox secret set GOOGLE_CLIENT_ID
+npx ampx sandbox secret set GOOGLE_CLIENT_SECRET
+```
+
+実行するとプロンプトが表示されるので値を入力してください。
+
+**本番・開発環境:**
+
+Amplify Console →「シークレット」セクションで同じキーを登録してください。
 
 ### ビルド
 
@@ -101,25 +133,26 @@ npm run build
 | `develop` | Development |
 | `feature/*` | Sandbox |
 
-## API エンドポイント
+本番・開発環境へのデプロイは Git push で自動実行されます。事前に Amplify Console でリポジトリを接続してください。
+
+```bash
+git push origin main     # 本番デプロイ
+git push origin develop  # 開発環境デプロイ
+```
+
+CI 環境からコマンドで直接デプロイする場合:
+
+```bash
+npm run amplify:deploy -- --branch main --app-id <AmplifyAppId>
+```
+
+## API ドキュメント
+
+API の詳細仕様は [`docs/openapi.yaml`](docs/openapi.yaml) を参照してください。
 
 すべてのエンドポイントは Cognito JWT (`Authorization: Bearer <token>`) が必要です。
 
-| Method | Path | 説明 |
-|---|---|---|
-| POST | `/projects` | プロジェクト作成 |
-| GET | `/projects` | プロジェクト一覧（降順） |
-| GET | `/projects/{projectId}` | プロジェクト詳細 |
-| DELETE | `/projects/{projectId}` | プロジェクト削除 |
-| POST | `/projects/{projectId}/characters/generate` | キャラクター一括生成 |
-| GET | `/projects/{projectId}/characters` | キャラクター一覧（昇順） |
-| GET | `/projects/{projectId}/characters/{characterId}` | キャラクター詳細 |
-| PUT | `/projects/{projectId}/characters/{characterId}` | キャラクター更新 |
-| DELETE | `/projects/{projectId}/characters/{characterId}` | キャラクター削除 |
-| POST | `/projects/{projectId}/characters/{characterId}/regenerate` | バックグラウンド再生成 |
-| POST | `/projects/{projectId}/relationships` | 関係性作成 |
-| GET | `/projects/{projectId}/relationships` | 関係性一覧 |
-| DELETE | `/projects/{projectId}/relationships/{relationshipId}` | 関係性削除 |
+[Swagger Editor](https://editor.swagger.io/) に `docs/openapi.yaml` を貼り付けると UI で確認できます。
 
 ## テスト
 

@@ -9,7 +9,8 @@
     "preview": "vite preview",
     "test": "vitest --run",
     "test:watch": "vitest",
-    "amplify:sandbox": "ampx sandbox"
+    "amplify:sandbox": "ampx sandbox",
+    "amplify:deploy": "ampx pipeline-deploy"
   },
   "dependencies": {
     "@aws-amplify/ui-react": "^6.0.0",
@@ -26,7 +27,7 @@
     "@testing-library/react": "^14.0.0",
     "@testing-library/user-event": "^14.5.0",
     "@types/aws-lambda": "^8.10.130",
-    "@types/node": "^20.10.0",
+    "@types/node": "^20.19.37",
     "@types/react": "^18.2.0",
     "@types/react-dom": "^18.2.0",
     "@vitejs/plugin-react": "^4.2.0",

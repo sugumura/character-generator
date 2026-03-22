@@ -5,7 +5,7 @@
 本ドキュメントは、ゲームキャラクター設定サポートツール「character-generator」の要件を定義する。
 ユーザーはプロジェクトを作成し、プロジェクト内で指定人数のゲームキャラクターをランダム生成できる。
 各キャラクターにはAmazon Bedrockを用いて日本語のバックグラウンドストーリーが自動生成される。
-フロントエンドはAWS Amplify（React + TypeScript）、バックエンドはAPI Gateway + Lambda + DynamoDB + Bedrockで構成される。
+フロントエンドはAWS Amplify（React + TypeScript）、バックエンドはAPI Gateway + Lambda (Node.js 24) + DynamoDB + Bedrockで構成される。DynamoDBテーブルはCDKで直接定義し、PK/SK複合キー設計を採用する。
 
 ## 用語集
 
@@ -38,15 +38,17 @@
 
 ### 要件1: ユーザー認証
 
-**ユーザーストーリー:** 開発者として、Cognitoによる認証を通じてシステムにアクセスしたい。そうすることで、認証済みユーザーのみがデータにアクセスできるセキュリティを確保できる。
+**ユーザーストーリー:** 開発者として、Googleアカウントでシステムにログインしたい。そうすることで、パスワード管理不要で安全にアクセスできる。
 
 #### 受け入れ基準
 
-1. THE **Authenticator** SHALL Amplify UIのAuthenticatorコンポーネントを使用してログイン・サインアップ画面を提供する
+1. THE **Authenticator** SHALL Amplify UIのAuthenticatorコンポーネントを使用してGoogleログインボタンを提供する
 2. WHEN 未認証ユーザーがAPIエンドポイントにアクセスしたとき、THE **API** SHALL HTTPステータス401を返す
 3. WHEN 認証済みユーザーがCognitoトークンをAuthorizationヘッダーに付与してAPIにアクセスしたとき、THE **API** SHALL リクエストを処理する
-4. THE **Auth_Service** SHALL Cognitoユーザープールを使用してユーザーの認証情報を管理する
-5. THE **System** SHALL `amplify/auth/resource.ts` でCognito認証設定を定義する
+4. THE **Auth_Service** SHALL CognitoユーザープールとGoogleのOAuthフェデレーションを使用してユーザーの認証情報を管理する
+5. THE **System** SHALL `amplify/auth/resource.ts` でCognito認証設定（Googleソーシャルプロバイダー）を定義する
+6. THE **System** SHALL GoogleのOAuthクライアントID・シークレットを環境変数（GOOGLE_CLIENT_ID、GOOGLE_CLIENT_SECRET）で管理する
+7. THE **System** SHALL コールバックURLとログアウトURLをローカル開発環境（localhost:5173）と本番環境の両方に対応させる
 
 ---
 
@@ -208,7 +210,7 @@
 
 1. THE **System** SHALL Amplify Gen2のCDKベースのインフラ定義をすべてのAWSリソース管理の基盤として使用する
 2. THE **System** SHALL `amplify/auth/resource.ts` でCognito認証設定を定義する
-3. THE **System** SHALL `amplify/data/resource.ts` でDynamoDBテーブルスキーマを定義する
+3. THE **System** SHALL `amplify/backend.ts` で `aws-cdk-lib/aws-dynamodb` を使用してDynamoDBテーブル（Projects_Table、Characters_Table、Relationships_Table）をPK/SK複合キー設計で直接定義する（Amplify defineDataは使用しない）
 4. THE **System** SHALL `amplify/functions/` 配下にLambda関数ごとのディレクトリを作成する
 5. THE **System** SHALL すべてのAWSリソースに以下のタグを付与する: `Project: character-generator`、`ManagedBy: amplify-gen2`、`Owner: team-gamedev`、`CostCenter: gamedev-tools`
 6. THE **System** SHALL mainブランチを本番（Production）、developブランチを開発（Development）、feature/*ブランチをサンドボックスとしてデプロイする

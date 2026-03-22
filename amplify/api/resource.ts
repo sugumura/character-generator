@@ -38,7 +38,14 @@ export function defineApi(
     defaultCorsPreflightOptions: {
       allowOrigins: apigw.Cors.ALL_ORIGINS,
       allowMethods: apigw.Cors.ALL_METHODS,
-      allowHeaders: ["Content-Type", "Authorization"],
+      allowHeaders: [
+        "Content-Type",
+        "Authorization",
+        "X-Amz-Date",
+        "X-Api-Key",
+        "X-Amz-Security-Token",
+      ],
+      allowCredentials: true,
     },
   });
 

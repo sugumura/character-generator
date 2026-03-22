@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import { fetchAuthSession } from "aws-amplify/auth";
 import { Combobox } from "../components/Combobox";
 import { ATTRIBUTE_OPTIONS } from "../constants/attributeOptions";
 import type { Character } from "../types";
@@ -29,7 +30,11 @@ export default function CharacterDetail() {
 
   const fetchCharacter = async () => {
     try {
-      const res = await fetch(`${API_BASE}/projects/${projectId}/characters/${characterId}`);
+      const session = await fetchAuthSession();
+      const idToken = session.tokens?.idToken?.toString();
+      const res = await fetch(`${API_BASE}/projects/${projectId}/characters/${characterId}`, {
+        headers: { Authorization: `Bearer ${idToken}` },
+      });
       if (!res.ok) throw new Error("キャラクターの取得に失敗しました");
       const data: Character = await res.json();
       setCharacter(data);
@@ -57,9 +62,14 @@ export default function CharacterDetail() {
   const handleSave = async () => {
     setSaving(true);
     try {
+      const session = await fetchAuthSession();
+      const idToken = session.tokens?.idToken?.toString();
       const res = await fetch(`${API_BASE}/projects/${projectId}/characters/${characterId}`, {
         method: "PUT",
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          Authorization: `Bearer ${idToken}`,
+          "Content-Type": "application/json",
+        },
         body: JSON.stringify(form),
       });
       if (!res.ok) throw new Error("保存に失敗しました");
@@ -75,8 +85,11 @@ export default function CharacterDetail() {
   const handleRegenerate = async () => {
     setRegenerating(true);
     try {
+      const session = await fetchAuthSession();
+      const idToken = session.tokens?.idToken?.toString();
       const res = await fetch(`${API_BASE}/projects/${projectId}/characters/${characterId}/regenerate`, {
         method: "POST",
+        headers: { Authorization: `Bearer ${idToken}` },
       });
       if (!res.ok) throw new Error("再生成に失敗しました");
       const updated: Character = await res.json();

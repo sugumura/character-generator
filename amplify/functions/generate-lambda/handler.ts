@@ -286,9 +286,9 @@ async function generateCharacters(event: APIGatewayProxyEvent) {
 
   const characterIds = characters.map((c) => c.characterId);
 
-  // Step 11: Kick off background Bedrock processing (don't await — Lambda continues after response)
+  // Step 11: Bedrock バックグラウンド生成（await して Lambda 終了前に完了させる）
   // Requirements 4.1, 4.5, 4.6, 4.7
-  Promise.allSettled(
+  await Promise.allSettled(
     characters.map((c) =>
       processCharacterBackground(c.characterId, projectId, worldSetting, {
         gender: c.gender,
@@ -300,9 +300,9 @@ async function generateCharacters(event: APIGatewayProxyEvent) {
         skinColor: c.skinColor,
       })
     )
-  ).catch((err: unknown) => console.error("Background processing error:", err));
+  );
 
-  // Step 10: Return characterIds immediately (Requirements 3.2)
+  // Step 10: Return characterIds (Requirements 3.2)
   return {
     statusCode: 201,
     headers: CORS_HEADERS,

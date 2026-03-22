@@ -160,6 +160,13 @@ export default function ProjectDetail() {
         {generateError && <p style={{ color: "red", marginTop: 8 }}>{generateError}</p>}
       </section>
 
+      {/* Relationship Map Link */}
+      <section style={{ marginBottom: 32 }}>
+        <button onClick={() => navigate(`/projects/${projectId}/relationships`)}>
+          関係性マップを見る
+        </button>
+      </section>
+
       {/* Character List */}
       <section>
         <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 12 }}>

@@ -9,7 +9,7 @@ import {
 } from "@aws-sdk/lib-dynamodb";
 import {
   BedrockRuntimeClient,
-  InvokeModelCommand,
+  ConverseCommand,
 } from "@aws-sdk/client-bedrock-runtime";
 
 /**
@@ -67,7 +67,7 @@ const CHARACTERS_TABLE = process.env.CHARACTERS_TABLE_NAME ?? "";
 const PROJECTS_TABLE = process.env.PROJECTS_TABLE_NAME ?? "";
 
 // ---- Bedrock client (inlined — Requirements 5.1) ----
-const MODEL_ID = "anthropic.claude-3-haiku-20240307-v1:0";
+const MODEL_ID = "amazon.nova-lite-v1:0";
 const bedrockClient = new BedrockRuntimeClient({ region: "ap-northeast-1" });
 
 async function generateBackground(
@@ -82,7 +82,7 @@ async function generateBackground(
     skinColor: string;
   }
 ): Promise<string> {
-  const systemPromptText = `あなたはゲームキャラクターのバックグラウンドストーリーを作成する専門家です。以下の世界観に基づいてキャラクターのバックグラウンドを作成してください。世界観: ${worldSetting} 制約: 日本語で300文字程度。キャラクターの過去・動機・目標を含めること。`;
+  const systemPrompt = `あなたはゲームキャラクターのバックグラウンドストーリーを作成する専門家です。以下の世界観に基づいてキャラクターのバックグラウンドを作成してください。世界観: ${worldSetting} 制約: 日本語で300文字程度。キャラクターの過去・動機・目標を含めること。`;
 
   const userMessage = `以下のキャラクター属性に基づいてバックグラウンドストーリーを作成してください。
 性別: ${character.gender}
@@ -93,23 +93,17 @@ async function generateBackground(
 髪色: ${character.hairColor}
 肌色: ${character.skinColor}`;
 
-  const requestBody = {
-    anthropic_version: "bedrock-2023-05-31",
-    max_tokens: 500,
-    system: systemPromptText,
-    messages: [{ role: "user", content: userMessage }],
-  };
-
-  const command = new InvokeModelCommand({
+  const command = new ConverseCommand({
     modelId: MODEL_ID,
-    contentType: "application/json",
-    accept: "application/json",
-    body: JSON.stringify(requestBody),
+    system: [{ text: systemPrompt }],
+    messages: [{ role: "user", content: [{ text: userMessage }] }],
+    inferenceConfig: { maxTokens: 500 },
   });
 
   const response = await bedrockClient.send(command);
-  const responseBody = JSON.parse(new TextDecoder().decode(response.body));
-  return responseBody.content[0].text as string;
+  const text = response.output?.message?.content?.[0]?.text;
+  if (!text) throw new Error("No text in Bedrock response");
+  return text;
 }
 
 // ---- Auth helper ----

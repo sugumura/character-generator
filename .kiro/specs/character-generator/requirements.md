@@ -98,7 +98,8 @@
 
 #### 受け入れ基準
 
-1. WHEN Generate_LambdaがキャラクターをCharacters_Tableに保存した後、THE **Bedrock_Client** SHALL `anthropic.claude-3-haiku-20240307-v1:0`（ap-northeast-1リージョン）を使用してバックグラウンドストーリーを生成する
+1. WHEN Generate_LambdaがキャラクターをCharacters_Tableに保存した後、THE **Bedrock_Client** SHALL `amazon.nova-lite-v1:0`（ap-northeast-1リージョン）を使用してバックグラウンドストーリーを生成する
+2. WHEN Bedrock_Clientがリクエストを送信するとき、THE **Bedrock_Client** SHALL Bedrock Converse APIを使用してリクエストを送信する
 2. WHEN Bedrock_Clientがリクエストを送信するとき、THE **Bedrock_Client** SHALL 以下のシステムプロンプトを使用する: 「あなたはゲームキャラクターのバックグラウンドストーリーを作成する専門家です。以下の世界観に基づいてキャラクターのバックグラウンドを作成してください。世界観: {worldSetting} 制約: 日本語で300文字程度。キャラクターの過去・動機・目標を含めること。」
 3. WHEN Bedrock_Clientがリクエストを送信するとき、THE **Bedrock_Client** SHALL max_tokensを500に設定する
 4. WHEN 同一プロジェクト内で複数のキャラクターを生成するとき、THE **Bedrock_Client** SHALL Prompt Cachingを活用してシステムプロンプト（worldSettingを含む）をキャッシュする

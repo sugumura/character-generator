@@ -101,6 +101,7 @@ graph TB
 | POST | /projects/{projectId}/relationships | Relationship_Lambda | 関係性作成 |
 | GET | /projects/{projectId}/relationships | Relationship_Lambda | 関係性一覧取得 |
 | DELETE | /projects/{projectId}/relationships/{relationshipId} | Relationship_Lambda | 関係性削除 |
+| POST | /projects/{projectId}/relationships/{relationshipId}/regenerate | Relationship_Lambda | 関係性再生成（Bedrock） |
 
 ### 認証フロー
 

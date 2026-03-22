@@ -150,8 +150,9 @@
 1. WHEN 認証済みユーザーが `POST /projects/{projectId}/relationships` にcharacterIdA、characterIdB、relationshipType、descriptionを送信したとき、THE **Relationship_Lambda** SHALL AからBへの関係性レコードとBからAへの関係性レコードの両方をRelationships_Tableに保存する
 2. WHEN 認証済みユーザーが `GET /projects/{projectId}/relationships` にアクセスしたとき、THE **Relationship_Lambda** SHALL プロジェクト内の全関係性を返す
 3. WHEN 認証済みユーザーが `DELETE /projects/{projectId}/relationships/{relationshipId}` にアクセスしたとき、THE **Relationship_Lambda** SHALL 対応するAからBおよびBからAの両方の関係性レコードをRelationships_Tableから削除する
-4. THE **Relationships_Table** SHALL `PK: project#{projectId}#character#{characterIdA}, SK: relation#{characterIdB}` のキー構造で関係性を格納する
-5. THE **Relationships_Table** SHALL relationshipType（仲間 / ライバル / 師弟 / 恋人 / 家族 / 敵対）とdescriptionの属性を保持する
+4. WHEN 認証済みユーザーが `POST /projects/{projectId}/relationships/{relationshipId}/regenerate` にアクセスしたとき、THE **Relationship_Lambda** SHALL 既存の関係性を削除し、Bedrockを使用して同じキャラクターペアの新しい関係性を生成してRelationships_Tableに保存する
+5. THE **Relationships_Table** SHALL `PK: project#{projectId}#character#{characterIdA}, SK: relation#{characterIdB}` のキー構造で関係性を格納する
+6. THE **Relationships_Table** SHALL relationshipType（仲間 / ライバル / 師弟 / 恋人 / 家族 / 敵対）とdescriptionの属性を保持する
 
 ---
 

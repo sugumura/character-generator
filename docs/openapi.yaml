@@ -576,3 +576,39 @@ paths:
           $ref: '#/components/responses/NotFound'
         '500':
           $ref: '#/components/responses/InternalError'
+
+  /projects/{projectId}/relationships/{relationshipId}/regenerate:
+    parameters:
+      - name: projectId
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: relationshipId
+        in: path
+        required: true
+        schema:
+          type: string
+
+    post:
+      summary: 関係性再生成（既存を削除してBedrockで再生成）
+      operationId: regenerateRelationship
+      responses:
+        '200':
+          description: 再生成成功
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Relationship'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '503':
+          description: Bedrock 呼び出し失敗
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          $ref: '#/components/responses/InternalError'

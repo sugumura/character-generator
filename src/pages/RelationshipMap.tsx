@@ -52,6 +52,7 @@ export default function RelationshipMap() {
   const [description, setDescription] = useState("");
   const [submitting, setSubmitting] = useState(false);
   const [formError, setFormError] = useState<string | null>(null);
+  const [regeneratingId, setRegeneratingId] = useState<string | null>(null);
 
   const fetchData = async () => {
     try {
@@ -124,6 +125,23 @@ export default function RelationshipMap() {
       await fetchData();
     } catch (e) {
       alert(e instanceof Error ? e.message : "削除エラー");
+    }
+  };
+
+  const handleRegenerate = async (relationshipId: string) => {
+    setRegeneratingId(relationshipId);
+    try {
+      const headers = await authHeaders();
+      const res = await fetch(`${API_BASE}/projects/${projectId}/relationships/${relationshipId}/regenerate`, {
+        method: "POST",
+        headers,
+      });
+      if (!res.ok) throw new Error("再生成に失敗しました");
+      await fetchData();
+    } catch (e) {
+      alert(e instanceof Error ? e.message : "再生成エラー");
+    } finally {
+      setRegeneratingId(null);
     }
   };
 
@@ -274,6 +292,9 @@ export default function RelationshipMap() {
                     <td style={{ padding: "8px 12px" }}>{rel.relationshipType}</td>
                     <td style={{ padding: "8px 12px" }}>{rel.description}</td>
                     <td style={{ padding: "8px 12px" }}>
+                      <button onClick={() => handleRegenerate(rel.relationshipId)} disabled={regeneratingId === rel.relationshipId} style={{ color: "#0066cc", background: "none", border: "1px solid #0066cc", borderRadius: 4, cursor: "pointer", padding: "2px 8px", marginRight: 4 }}>
+                        {regeneratingId === rel.relationshipId ? "生成中..." : "再生成"}
+                      </button>
                       <button onClick={() => handleDelete(rel.relationshipId)} style={{ color: "red", background: "none", border: "1px solid red", borderRadius: 4, cursor: "pointer", padding: "2px 8px" }}>
                         削除
                       </button>

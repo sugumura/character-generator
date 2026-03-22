@@ -115,6 +115,10 @@ export function defineApi(
   const relationship = relationships.addResource("{relationshipId}");
   relationship.addMethod("DELETE", relationshipIntegration, authMethodOptions);
 
+  // /projects/{projectId}/relationships/{relationshipId}/regenerate
+  const relationshipRegenerate = relationship.addResource("regenerate");
+  relationshipRegenerate.addMethod("POST", relationshipIntegration, authMethodOptions);
+
   // UsagePlan: スロットリング 10 req/s/ユーザー (Requirement 11.1)
   const usagePlan = api.addUsagePlan("DefaultUsagePlan", {
     name: "DefaultUsagePlan",

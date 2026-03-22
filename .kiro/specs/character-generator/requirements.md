@@ -119,6 +119,7 @@
 1. WHEN 認証済みユーザーが `POST /projects/{projectId}/characters/{characterId}/regenerate` にアクセスしたとき、THE **Character_Lambda** SHALL 対象キャラクターのgenerationStatusをpendingにリセットし、Bedrock_Clientを呼び出してバックグラウンドストーリーを再生成する
 2. WHEN 再生成が完了したとき、THE **Character_Lambda** SHALL backgroundフィールドを新しいテキストで更新し、generationStatusをcompletedに更新する
 3. IF 再生成中にエラーが発生したとき、THEN THE **Character_Lambda** SHALL generationStatusをfailedに更新する
+4. THE **Character_Lambda** SHALL Bedrock呼び出しを同期的に `await` して完了を待つため、Lambda タイムアウトを120秒に設定する
 
 ---
 

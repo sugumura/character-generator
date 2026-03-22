@@ -96,13 +96,7 @@ async function generateBackground(
   const requestBody = {
     anthropic_version: "bedrock-2023-05-31",
     max_tokens: 500,
-    system: [
-      {
-        type: "text",
-        text: systemPromptText,
-        cache_control: { type: "ephemeral" },
-      },
-    ],
+    system: systemPromptText,
     messages: [{ role: "user", content: userMessage }],
   };
 

@@ -109,6 +109,7 @@ const characterLambda = new lambdaNodejs.NodejsFunction(apiStack, "CharacterLamb
   ...commonLambdaProps,
   entry: join(__dirname, "functions/character-lambda/handler.ts"),
   handler: "handler",
+  timeout: cdk.Duration.seconds(120),
 });
 
 // Generate Lambda (Bedrock 呼び出しのため timeout を長めに設定)

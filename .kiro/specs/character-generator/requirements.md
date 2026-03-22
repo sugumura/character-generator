@@ -89,6 +89,9 @@
 5. WHEN 1ユーザーの当日の生成回数が100回に達しているとき、THE **Generate_Lambda** SHALL HTTPステータス429とエラーメッセージを返す
 6. THE **Generate_Lambda** SHALL ランダム生成時にspecialNotesを空文字列で初期化する
 7. THE **Characters_Table** SHALL `PK: project#{projectId}, SK: character#{characterId}` のキー構造でデータを格納する
+8. WHEN バックグラウンドストーリー生成完了後、プロジェクト内に2体以上のキャラクターが存在するとき、THE **Generate_Lambda** SHALL 新規キャラクターと既存の各キャラクターの間の関係性をBedrockで自動生成し、Relationships_Tableに保存する
+9. WHEN Bedrockが関係性を生成するとき、THE **Generate_Lambda** SHALL 2体のキャラクター属性と世界観を渡し、relationshipType（仲間 / ライバル / 師弟 / 恋人 / 家族 / 敵対 のいずれか）と日本語のdescription（50文字程度）をJSON形式で返させる
+10. IF 関係性の自動生成に失敗したとき、THEN THE **Generate_Lambda** SHALL エラーをログに記録するが、キャラクター生成全体はエラーにしない（関係性生成はベストエフォート）
 
 ---
 

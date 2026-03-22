@@ -8,11 +8,11 @@ import {
   UpdateCommand,
 } from "@aws-sdk/lib-dynamodb";
 import { ulid } from "ulid";
-import { generateBackground } from "./bedrockClient";
+import { generateBackground, generateRelationship, type CharacterAttrs } from "./bedrockClient";
 
 /**
  * Generate_Lambda - キャラクターランダム属性生成 + Bedrock連携
- * Requirements: 3.1, 3.2, 3.3, 3.4, 3.5, 3.6, 4.1, 4.5, 4.6, 4.7, 11.2, 11.3
+ * Requirements: 3.1, 3.2, 3.3, 3.4, 3.5, 3.6, 3.8, 3.9, 3.10, 4.1, 4.5, 4.6, 4.7, 11.2, 11.3
  */
 
 // ---- Inline ATTRIBUTE_OPTIONS (Requirements 3.3) ----
@@ -67,6 +67,7 @@ const ddb = DynamoDBDocumentClient.from(ddbClient);
 
 const CHARACTERS_TABLE = process.env.CHARACTERS_TABLE_NAME ?? "";
 const PROJECTS_TABLE = process.env.PROJECTS_TABLE_NAME ?? "";
+const RELATIONSHIPS_TABLE = process.env.RELATIONSHIPS_TABLE_NAME ?? "";
 
 // ---- Auth helper ----
 function getUserId(event: APIGatewayProxyEvent): string | null {
@@ -301,6 +302,101 @@ async function generateCharacters(event: APIGatewayProxyEvent) {
       })
     )
   );
+
+  // Step 12: 関係性自動生成 (Requirements 3.8, 3.9, 3.10)
+  // 既存キャラクター（新規以外）を取得
+  const allCharsResult = await ddb.send(
+    new QueryCommand({
+      TableName: CHARACTERS_TABLE,
+      KeyConditionExpression: "PK = :pk",
+      ExpressionAttributeValues: { ":pk": `project#${projectId}` },
+    })
+  );
+  const newCharIds = new Set(characters.map((c) => c.characterId));
+  const existingChars: CharacterAttrs[] = (allCharsResult.Items ?? [])
+    .filter((item) => {
+      const sk = item.SK as string;
+      return sk.startsWith("character#") && !newCharIds.has(item.characterId as string);
+    })
+    .map((item) => ({
+      characterId: item.characterId as string,
+      gender: item.gender as string,
+      personality: item.personality as string,
+      age: item.age as string,
+      species: item.species as string,
+      occupation: item.occupation as string,
+      hairColor: item.hairColor as string,
+      skinColor: item.skinColor as string,
+    }));
+
+  // 新規キャラクター同士 + 新規×既存 の全ペアで関係性生成
+  const allNewChars: CharacterAttrs[] = characters.map((c) => ({
+    characterId: c.characterId,
+    gender: c.gender,
+    personality: c.personality,
+    age: c.age,
+    species: c.species,
+    occupation: c.occupation,
+    hairColor: c.hairColor,
+    skinColor: c.skinColor,
+  }));
+
+  const pairs: Array<[CharacterAttrs, CharacterAttrs]> = [];
+  // 新規同士のペア
+  for (let i = 0; i < allNewChars.length; i++) {
+    for (let j = i + 1; j < allNewChars.length; j++) {
+      pairs.push([allNewChars[i], allNewChars[j]]);
+    }
+  }
+  // 新規×既存のペア
+  for (const newChar of allNewChars) {
+    for (const existingChar of existingChars) {
+      pairs.push([newChar, existingChar]);
+    }
+  }
+
+  if (pairs.length > 0) {
+    await Promise.allSettled(
+      pairs.map(async ([charA, charB]) => {
+        try {
+          const rel = await generateRelationship(worldSetting, charA, charB);
+          const relationshipId = ulid();
+          const relNow = new Date().toISOString();
+          // A→B
+          await ddb.send(new PutCommand({
+            TableName: RELATIONSHIPS_TABLE,
+            Item: {
+              PK: `project#${projectId}#character#${charA.characterId}`,
+              SK: `relation#${charB.characterId}`,
+              relationshipId,
+              characterIdA: charA.characterId,
+              characterIdB: charB.characterId,
+              relationshipType: rel.relationshipType,
+              description: rel.description,
+              createdAt: relNow,
+            },
+          }));
+          // B→A
+          await ddb.send(new PutCommand({
+            TableName: RELATIONSHIPS_TABLE,
+            Item: {
+              PK: `project#${projectId}#character#${charB.characterId}`,
+              SK: `relation#${charA.characterId}`,
+              relationshipId,
+              characterIdA: charB.characterId,
+              characterIdB: charA.characterId,
+              relationshipType: rel.relationshipType,
+              description: rel.description,
+              createdAt: relNow,
+            },
+          }));
+        } catch (err) {
+          // Requirements 3.10: ベストエフォート、失敗してもキャラクター生成はエラーにしない
+          console.error(`Relationship generation failed for ${charA.characterId}-${charB.characterId}:`, err);
+        }
+      })
+    );
+  }
 
   // Step 10: Return characterIds (Requirements 3.2)
   return {

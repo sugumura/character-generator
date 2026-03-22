@@ -120,6 +120,7 @@ sequenceDiagram
     participant Client
     participant GL as Generate_Lambda
     participant DDB as Characters_Table
+    participant RDDB as Relationships_Table
     participant BR as Bedrock
 
     Client->>GL: POST /generate {count: N}
@@ -136,6 +137,17 @@ sequenceDiagram
             GL->>DDB: background更新, status → completed
         else 失敗
             GL->>DDB: status → failed
+        end
+    end
+    Note over GL,RDDB: 2体以上いる場合のみ関係性自動生成
+    GL->>DDB: 既存キャラクター一覧取得
+    loop 新規キャラクター × 既存キャラクター
+        GL->>BR: 関係性生成リクエスト (2体の属性 + 世界観)
+        alt 成功
+            BR-->>GL: {relationshipType, description}
+            GL->>RDDB: A→B, B→A の2レコード保存
+        else 失敗
+            GL->>GL: エラーログ記録 (ベストエフォート)
         end
     end
 ```
